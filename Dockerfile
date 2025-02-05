@@ -19,6 +19,6 @@ WORKDIR /app
 
 COPY --from=build /app/build/libs/*SNAPSHOT.jar app.jar
 
-EXPOSE 8888
+EXPOSE {APPLICATION_PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
