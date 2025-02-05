@@ -1,13 +1,13 @@
-name: trigger AWS goCD Pipeline
-on: [push]
-jobs:
-  trigger-gocd-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger AWS goCD Pipeline 
-        run: |
-          curl -X POST http://${{ secrets.AWS_IP }}:${{ secrets.AWS_PORT }}/go/api/admin/materials/git/notify \
-          -u '${{ secrets.GOCD_USERNAME }}:${{ secrets.GOCD_PASSWORD }}' \
-          -H 'Accept: application/vnd.go.cd.v2+json' \
-          -H 'Content-Type: application/json' \
-          -d '{"repository_url": "https://github.com/project-hyeonworld/backend-apiGateway"}'
+# name: trigger AWS goCD Pipeline
+# on: [push]
+# jobs:
+#   trigger-gocd-job:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Trigger AWS goCD Pipeline 
+#         run: |
+#           curl -X POST http://${{ secrets.AWS_IP }}:${{ secrets.AWS_PORT }}/go/api/admin/materials/git/notify \
+#           -u '${{ secrets.GOCD_USERNAME }}:${{ secrets.GOCD_PASSWORD }}' \
+#           -H 'Accept: application/vnd.go.cd.v2+json' \
+#           -H 'Content-Type: application/json' \
+#           -d '{"repository_url": "https://github.com/project-hyeonworld/backend-apiGateway"}'

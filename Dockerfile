@@ -1,5 +1,4 @@
-ARG BASE_IMAGE={APPLICATION_NAME}:{DOCKER_IMAGE_TAG}
-FROM ${BASE_IMAGE} AS build
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /app
 
