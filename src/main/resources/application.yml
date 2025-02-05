@@ -1,10 +1,10 @@
 server:
-  port: 13000
+  port: {MY_BACKEND_PORT}
 spring:
   application:
     name: api-gateway
   profiles:
-    active: local
+    active: {SPRING_PROFILE_ACTIVE}
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://{MY_BACKEND_CONFIG_SERVER_IP}:{MY_BACKEND_CONFIG_SERVER_PORT}
 
