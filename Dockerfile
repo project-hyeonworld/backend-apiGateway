@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk AS build
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
@@ -11,11 +11,9 @@ COPY src/ ./src/
 
 RUN ./gradlew build -x test
 
-FROM eclipse-temurin:21-jre-alpine
-
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*SNAPSHOT.jar app.jar
+COPY /app/build/libs/*SNAPSHOT.jar app.jar
 
 EXPOSE {APPLICATION_PORT}
 
