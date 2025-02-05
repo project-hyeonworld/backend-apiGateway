@@ -8,7 +8,6 @@ COPY build.gradle .
 COPY settings.gradle .
 
 COPY gradle/ ./gradle/
-COPY configuration/ ./configuration/
 COPY src/ ./src/
 
 RUN ./gradlew build -x test
