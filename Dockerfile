@@ -1,10 +1,5 @@
 ARG BASE_IMAGE={APPLICATION_NAME}:{DOCKER_IMAGE_TAG}
-
-FROM ${BASE_IMAGE} AS base_check
-FROM base_check AS build
-
-FROM eclipse-temurin:21-jdk-alpine AS fallback
-FROM fallback AS build
+FROM ${BASE_IMAGE} AS build
 
 WORKDIR /app
 
