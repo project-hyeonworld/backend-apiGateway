@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	siteLib "way-manager/api/site/cmd/lib"
+	nginxLib "way-manager/api/nginx/cmd/lib"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +10,7 @@ import (
 func main() {
 
 	router := gin.Default()
-	if err := siteLib.StartApiServer(nil, router); err != nil {
+	if err := nginxLib.StartApiServer(nil, router); err != nil {
 		fmt.Errorf("Failed to start site api: %v", err)
 	}
 

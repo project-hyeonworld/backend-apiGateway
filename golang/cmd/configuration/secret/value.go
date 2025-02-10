@@ -1,9 +1,17 @@
 package configuration_secret
 
 type Value struct {
-	session string
+	SiteApiIp    string
+	SiteApiPort  uint16
+	NginxApiIp   string
+	NginxApiPort uint16
 }
 
+const (
+	LOCALHOST = "localhost"
+)
+
 func (v *Value) Init() {
-	v.session = "{MY_SESSION_APPLICATION_NAME}"
+	v.NginxApiIp = LOCALHOST
+	v.NginxApiPort = 5001
 }
