@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strconv"
 	"strings"
 	model "way-manager/api/shared/common/model"
@@ -13,13 +12,45 @@ import (
 )
 
 type NginxConfigBusiness struct {
-	application map[string]secret.ApplicationInfo
+	application  map[string]secret.ApplicationInfo
+	availableDir string
+	enabledDir   string
 }
 
 func NewNginxConfigBusiness(secretValue *secret.Value) NginxConfigBusiness {
 	return NginxConfigBusiness{
-		application: secretValue.Applications,
+		application:  secretValue.Applications,
+		availableDir: secretValue.SiteValue.AvailableDir,
+		enabledDir:   secretValue.SiteValue.EnabledDir,
 	}
+}
+
+func (biz NginxConfigBusiness) CreateSymlink(applicationName *string) error {
+
+	if applicationName != nil {
+		expectedFile := filepath.Join(biz.getSymlinkFileName(applicationName))
+		if _, err := os.Stat(expectedFile); err == nil {
+			// File exists, so we don't need to create a new symlink
+			fmt.Printf("Configuration for %s already exists", *applicationName)
+			return nil
+		}
+	}
+
+	confFiles, err := filepath.Glob(biz.getFileName(applicationName))
+	if err != nil {
+		return fmt.Errorf("failed to get conf files: %v", err)
+	}
+	for _, confFile := range confFiles {
+		fileName := filepath.Base(confFile)
+		symlinkPath := filepath.Join(biz.getSymlinkFileName(applicationName))
+
+		err := os.Symlink(confFile, symlinkPath)
+		if err != nil {
+			return fmt.Errorf("failed to create symlink for %s: %v", fileName, err)
+		}
+		fmt.Printf("Created symlink for %s\n", fileName)
+	}
+	return nil
 }
 func (biz *NginxConfigBusiness) PatchFile(applicationName, content *string) error {
 	filename := biz.getFileName(applicationName)
@@ -42,14 +73,11 @@ func (biz *NginxConfigBusiness) AddProxyServer(config *model.NginxConfig, proxyS
 }
 
 func (biz *NginxConfigBusiness) getFileName(applicationName *string) string {
-	_, filename, _, _ := runtime.Caller(0)
-	dir := filepath.Dir(filename)
-	mainDir := filepath.Join(dir, "..", "..", "..", "..", "..", "..")
-	if strings.HasSuffix(mainDir, "api-gateway") {
-		return filepath.Join(mainDir, "nginx", "site-available", *applicationName+".conf")
-	}
-	return ""
+	return biz.availableDir + "/" + *applicationName + ".conf"
+}
 
+func (biz *NginxConfigBusiness) getSymlinkFileName(applicationName *string) string {
+	return biz.enabledDir + "/" + *applicationName + ".conf"
 }
 
 func (biz *NginxConfigBusiness) CreateFile(proxyServer *model.ProxyServer) (string, error) {

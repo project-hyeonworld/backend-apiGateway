@@ -1,9 +1,11 @@
 package site
 
 import (
+	"context"
 	"net/http"
-	common "way-manager/api/shared/common"
+	"time"
 	model "way-manager/api/shared/common/model"
+	pb "way-manager/api/shared/proto/nginx"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +23,7 @@ func (h *Handler) Add(c *gin.Context) {
 	var input model.ProxyServer
 	if err := c.ShouldBindQuery(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	if err := h.ctrl.Add(&input); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

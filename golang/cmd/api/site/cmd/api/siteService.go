@@ -1,24 +1,24 @@
 package site
 
 import (
-	common "way-manager/api/shared/common"
+	"fmt"
 	model "way-manager/api/shared/common/model"
 )
 
 type Service struct {
-	repo common.IRepository
+	repo IRepository
 	biz  NginxConfigBusiness
 }
 
-func NewService(repo common.IRepository, biz NginxConfigBusiness) *Service {
+func NewService(repo IRepository, biz NginxConfigBusiness) *Service {
 	return &Service{repo: repo, biz: biz}
 }
 
 func (s *Service) Add(proxyServer *model.ProxyServer) error {
-	content, err := s.biz.ReadFile(&proxyServer.ApplicationName)
+	content, _ := s.biz.ReadFile(&proxyServer.ApplicationName)
 	if content == "" {
 		s.biz.CreateFile(proxyServer)
-		return nil
+		s.biz.CreateSymlink(&proxyServer.ApplicationName)
 	}
 	config, err := s.biz.ParseNginxConfig(&content)
 	if err != nil {
@@ -27,6 +27,10 @@ func (s *Service) Add(proxyServer *model.ProxyServer) error {
 	s.biz.AddProxyServer(&config, proxyServer)
 
 	patchContent := config.ToString()
-	s.biz.PatchFile(&proxyServer.ApplicationName, &patchContent)
+
+	if err := s.biz.PatchFile(&proxyServer.ApplicationName, &patchContent); err != nil {
+		return fmt.Errorf("failed to patch file: %v\n", err)
+	}
+
 	return nil
 }

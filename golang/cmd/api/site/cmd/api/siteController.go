@@ -1,15 +1,14 @@
 package site
 
 import (
-	common "way-manager/api/shared/common"
 	model "way-manager/api/shared/common/model"
 )
 
 type Controller struct {
-	svc common.IService
+	svc IService
 }
 
-func NewController(svc common.IService) *Controller {
+func NewController(svc IService) *Controller {
 	return &Controller{svc: svc}
 }
 
