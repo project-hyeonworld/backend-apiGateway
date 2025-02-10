@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+golang/nginx/sites-available/*.conf
+golang/nginx/sites-enabled/*.conf
