@@ -10,13 +10,13 @@ type ApplicationInfo struct {
 
 type SiteValue struct {
 	AvailableDir string
-	EnabledDir string
+	EnabledDir   string
 }
 
 type Value struct {
 	CommonValue  commonSecret.Value
 	Applications map[string]ApplicationInfo
-	SiteValue SiteValue
+	SiteValue    SiteValue
 }
 
 func (v *Value) Init(commonSecretValue *commonSecret.Value) error {
@@ -26,9 +26,9 @@ func (v *Value) Init(commonSecretValue *commonSecret.Value) error {
 			ApiLocation: "{MY_SESSION_APPLICATION_API_LOCATION}",
 		},
 	}
-	v.SiteValue = SiteValue {
-		AvailableDir: "/etc/nginx/sites-available",
-		EnabledDir: "/etc/nginx/sites-enabled",
+	v.SiteValue = SiteValue{
+		AvailableDir: "{AVAILABLE_DIRECTORY}",
+		EnabledDir:   "{ENABLED_DIRECTORY}",
 	}
 	return nil
 }
