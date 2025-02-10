@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000" 
-      - "8880:80"   
+      - "80:80"   
     volumes:
       - ./golang/nginx/sites-available:/etc/nginx/sites-available
       - ./golang/nginx/sites-enabled:/etc/nginx/sites-enabled
