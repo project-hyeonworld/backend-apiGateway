@@ -21,5 +21,12 @@ func (c *Container) Init(secretValue *secret.Value) {
 	c.SiteRepository = site.NewRepository()
 	c.SiteService = site.NewService(c.SiteRepository, c.NginxConfigBusiness)
 	c.SiteController = site.NewController(c.SiteService)
-	c.SiteHandler = site.NewHandler(c.SiteController)
+
+	conn, err := grpc.NewClient(fmt.Sprintf("%s:%d", secretValue.CommonValue.NginxApiIp, secretValue.CommonValue.NginxApiPort),
+		grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Errorf("failed to connect to nginx client %v", err)
+	}
+	nginxHandler := pb.NewNginxHandlerClient(conn)
+	c.SiteHandler = site.NewHandler(nginxHandler, c.SiteController)
 }

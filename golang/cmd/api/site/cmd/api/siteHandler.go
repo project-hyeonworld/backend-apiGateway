@@ -9,11 +9,12 @@ import (
 )
 
 type Handler struct {
-	ctrl common.IController
+	nginxHdlr pb.NginxHandlerClient
+	ctrl      IController
 }
 
-func NewHandler(ctrl common.IController) *Handler {
-	return &Handler{ctrl: ctrl}
+func NewHandler(nginxHdlr pb.NginxHandlerClient, ctrl IController) *Handler {
+	return &Handler{nginxHdlr: nginxHdlr, ctrl: ctrl}
 }
 
 func (h *Handler) Add(c *gin.Context) {
@@ -23,6 +24,24 @@ func (h *Handler) Add(c *gin.Context) {
 	}
 	if err := h.ctrl.Add(&input); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
+
+	if err := h.restartNginx(); err != nil {
+		c.String(http.StatusInternalServerError, "ngix not restarted :%v", err)
+		return
+	}
+
 	c.String(http.StatusOK, "Successfully Added proxy server")
+}
+
+func (h *Handler) restartNginx() error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
+
+	_, err := h.nginxHdlr.Restart(ctx, &pb.RestartRequest{})
+	if err != nil {
+		return err
+	}
+	defer cancel()
+	return nil
 }
