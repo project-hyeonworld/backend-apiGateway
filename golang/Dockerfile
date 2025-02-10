@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=builder /app/ .
 
 # Expose the port your service will run on (adjust if needed)
-EXPOSE 5000 80
+EXPOSE 5000 5000
 
 # Command to run the nginx service binary
 CMD sh -c "/app/cmd/main & nginx -g 'daemon off;'"
