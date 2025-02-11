@@ -17,8 +17,12 @@ func NewService(repo IRepository, biz NginxConfigBusiness) *Service {
 func (s *Service) Add(proxyServer *model.ProxyServer) error {
 	content, _ := s.biz.ReadFile(&proxyServer.ApplicationName)
 	if content == "" {
-		s.biz.CreateFile(proxyServer)
+		_, err := s.biz.CreateFile(proxyServer)
+		if err != nil {
+			return err
+		}
 		s.biz.CreateSymlink(&proxyServer.ApplicationName)
+		return nil
 	}
 	config, err := s.biz.ParseNginxConfig(&content)
 	if err != nil {

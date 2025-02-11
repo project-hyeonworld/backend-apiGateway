@@ -97,11 +97,14 @@ func (biz *NginxConfigBusiness) CreateFile(proxyServer *model.ProxyServer) (stri
 		return "", fmt.Errorf("error writing to file: %v", err)
 	}
 
-	return filename, nil
+	return configContent, nil
 }
 
 func (biz *NginxConfigBusiness) createConfigString(proxyServer *model.ProxyServer) (string, error) {
 	serverLocationPath := biz.getServerLocationPath(&proxyServer.ApplicationName)
+	if serverLocationPath == "" {
+		return "", fmt.Errorf("server location path not found:%s", proxyServer.ApplicationName)
+	}
 	config := model.NginxConfig{}
 	config.Fill(proxyServer, &serverLocationPath)
 	return config.ToString(), nil
