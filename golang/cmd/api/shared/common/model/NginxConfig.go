@@ -63,28 +63,27 @@ func (c *NginxConfig) ToString() string {
 
 	// Write upstream block
 	result.WriteString(fmt.Sprintf("upstream %s {\n", c.Upstream.Name))
-	result.WriteString(fmt.Sprintf("    %s;\n", c.Upstream.Method))
+	result.WriteString(fmt.Sprintf("\t%s;\n", c.Upstream.Method))
 	for i, ip := range c.Upstream.Ip {
 		port := c.Upstream.Port[i]
-		result.WriteString(fmt.Sprintf("    server %s:%d;\n", ip, port))
+		result.WriteString(fmt.Sprintf("\tserver %s:%d;\n", ip, port))
 	}
 	result.WriteString("}\n\n")
 
 	// Write server block
 	result.WriteString("server {\n")
-	result.WriteString(fmt.Sprintf("    listen %d;\n", c.Server.ListenPort))
+	result.WriteString(fmt.Sprintf("\tlisten %d;\n", c.Server.ListenPort))
 
 	for _, location := range c.Server.Locations {
-		result.WriteString(fmt.Sprintf("    location %s {\n", location.Path))
-		result.WriteString(fmt.Sprintf("        proxy_pass %s;\n", location.ProxyPass))
-		result.WriteString("    }\n")
+		result.WriteString(fmt.Sprintf("\tlocation %s {\n", location.Path))
+		result.WriteString(fmt.Sprintf("\t\tproxy_pass %s;\n", location.ProxyPass))
+		result.WriteString("\t}\n")
 	}
 
 	for key, value := range c.Server.ProxyHeaders {
-		result.WriteString(fmt.Sprintf("    proxy_set_header %s %s;\n", key, value))
+		result.WriteString(fmt.Sprintf("\tproxy_set_header %s %s;\n", key, value))
 	}
 
 	result.WriteString("}\n")
-
 	return result.String()
 }
