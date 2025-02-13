@@ -25,6 +25,9 @@ func (v *Value) Init(commonSecretValue *commonSecret.Value) error {
 		"{MY_SESSION_APPLICATION_NAME}": {
 			ApiLocation: "{MY_SESSION_APPLICATION_API_LOCATION}",
 		},
+		"{MY_USER_APPLICATION_NAME}": {
+			ApiLocation: "{MY_USER_APPLICATION_API_LOCATION}",
+		},
 	}
 	v.SiteValue = SiteValue{
 		AvailableDir: "{AVAILABLE_DIRECTORY}",
