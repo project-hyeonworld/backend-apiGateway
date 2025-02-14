@@ -1,12 +1,12 @@
-version: '3.3'
+version: '3'
 
 services:
   golang-with-nginx:
     build:
       context: ./golang
       dockerfile: Dockerfile
-
-    networks_mode: "host"
+    image: "{SERVICES_SPRING_IMAGE_NAME}"
+    network_mode: "host"
     volumes:
       - ./golang/nginx/sites-available:/etc/nginx/sites-available
       - ./golang/nginx/sites-enabled:/etc/nginx/sites-enabled
