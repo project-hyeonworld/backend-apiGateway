@@ -4,6 +4,9 @@ import (
 	commonSecret "way-manager/configuration/secret"
 )
 
+type ProjectInfo struct {
+	Port uint16
+}
 type ApplicationInfo struct {
 	ApiLocation string
 }
@@ -15,12 +18,18 @@ type SiteValue struct {
 
 type Value struct {
 	CommonValue  commonSecret.Value
+	Projects     map[string]ProjectInfo
 	Applications map[string]ApplicationInfo
 	SiteValue    SiteValue
 }
 
 func (v *Value) Init(commonSecretValue *commonSecret.Value) error {
 	v.CommonValue = getCommonScretValue(commonSecretValue)
+	v.Projects = map[string]ProjectInfo{
+		"{GO_ENVIRONMENT_NAME}": {
+			Port: {MY_BACKEND_PORT},
+		},
+	}
 	v.Applications = map[string]ApplicationInfo{
 		"{MY_SESSION_APPLICATION_NAME}": {
 			ApiLocation: "{MY_SESSION_APPLICATION_API_LOCATION}",
