@@ -5,7 +5,7 @@ services:
     build:
       context: ./golang
       dockerfile: Dockerfile
-    image: "{SERVICES_SPRING_IMAGE_NAME}"
+    image: "{SERVICES_GOLANG_IMAGE_NAME}"
     network_mode: "host"
     volumes:
       - ./golang/nginx/sites-available:/etc/nginx/sites-available
