@@ -12,6 +12,7 @@ import (
 )
 
 type NginxConfigBusiness struct {
+	project      map[string]secret.ProjectInfo
 	application  map[string]secret.ApplicationInfo
 	availableDir string
 	enabledDir   string
@@ -106,8 +107,17 @@ func (biz *NginxConfigBusiness) createConfigString(proxyServer *model.ProxyServe
 		return "", fmt.Errorf("server location path not found:%s", proxyServer.ApplicationName)
 	}
 	config := model.NginxConfig{}
-	config.Fill(proxyServer, &serverLocationPath)
+
+	config.Fill(proxyServer, &serverLocationPath, biz.getProjectPort(proxyServer))
 	return config.ToString(), nil
+}
+
+func (biz *NginxConfigBusiness) getProjectPort(proxyServer *model.ProxyServer) uint16 {
+	projectName := strings.Split(proxyServer.ApplicationName, "_")[0]
+	if project, ok := biz.project[projectName]; ok {
+		return project.Port
+	}
+	return 10000
 }
 
 func (biz *NginxConfigBusiness) getServerLocationPath(applicationName *string) string {
@@ -217,7 +227,7 @@ func parseServerBlock(lines []string, startIndex int) (model.ServerBlock, int) {
 
 		if parts[0] == "listen" {
 			if port, err := strconv.Atoi(strings.TrimSuffix(parts[1], ";")); err == nil {
-				block.ListenPort = port
+				block.ListenPort = uint16(port)
 			}
 			continue
 		}

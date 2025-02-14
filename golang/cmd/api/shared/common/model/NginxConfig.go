@@ -13,7 +13,7 @@ type UpstreamBlock struct {
 }
 
 type ServerBlock struct {
-	ListenPort   int
+	ListenPort   uint16
 	Locations    []LocationBlock
 	ProxyHeaders map[string]string
 }
@@ -28,7 +28,7 @@ type NginxConfig struct {
 	Server   ServerBlock
 }
 
-func (c *NginxConfig) Fill(proxyServer *ProxyServer, serverLocationPath *string) *NginxConfig {
+func (c *NginxConfig) Fill(proxyServer *ProxyServer, serverLocationPath *string, listenPort uint16) *NginxConfig {
 	// Modify Upstream
 	c.Upstream.Name = proxyServer.ApplicationName
 	c.Upstream.Method = "ip_hash"
@@ -36,7 +36,7 @@ func (c *NginxConfig) Fill(proxyServer *ProxyServer, serverLocationPath *string)
 	c.Upstream.Port = []uint16{proxyServer.Port}
 
 	// Modify Server
-	c.Server.ListenPort = int(proxyServer.Port)
+	c.Server.ListenPort = listenPort
 	c.Server.Locations = []LocationBlock{
 		{
 			Path:      *serverLocationPath,
