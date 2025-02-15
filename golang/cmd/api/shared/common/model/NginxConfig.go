@@ -39,8 +39,8 @@ func (c *NginxConfig) Fill(proxyServer *ProxyServer, serverLocationPath *string,
 	c.Server.ListenPort = listenPort
 	c.Server.Locations = []LocationBlock{
 		{
-			Path:      *serverLocationPath,
-			ProxyPass: "http://" + proxyServer.ApplicationName,
+			Path:      fmt.Sprintf("^ %s(/|$)", *serverLocationPath),
+			ProxyPass: fmt.Sprintf("http://%s", proxyServer.ApplicationName),
 		},
 	}
 	c.Server.ProxyHeaders = map[string]string{
