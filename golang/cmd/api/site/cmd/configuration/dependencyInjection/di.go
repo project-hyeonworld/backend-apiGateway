@@ -32,4 +32,5 @@ func (c *Container) Init(secretValue *secret.Value) error {
 	}
 	nginxHandler := pb.NewNginxHandlerClient(conn)
 	c.SiteHandler = site.NewHandler(nginxHandler, c.SiteController)
+	return nil
 }
