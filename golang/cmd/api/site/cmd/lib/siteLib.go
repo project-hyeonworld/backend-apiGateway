@@ -16,7 +16,9 @@ func StartApiServer(commonSecretValue *commonSecret.Value, router *gin.Engine) e
 	}
 
 	container := di.Container{}
-	container.Init(&secretValue)
+	if err := container.Init(&secretValue); err != nil {
+		return fmt.Errorf("failed to initialize container: %w", err)
+	}
 
 	siteGroup := router.Group("/site")
 	{

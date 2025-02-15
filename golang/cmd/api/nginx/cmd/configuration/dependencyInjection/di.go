@@ -29,15 +29,16 @@ func (c *Container) Init(secretValue *secret.Value) {
 	fmt.Printf("%d", a)
 }
 
-func startGrpcServer(secretValue *secret.Value, handler nginx.IHandler) {
+func startGrpcServer(secretValue *secret.Value, handler nginx.IHandler) error {
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", secretValue.CommonValue.NginxApiIp, secretValue.CommonValue.NginxApiPort))
 	if err != nil {
-		fmt.Errorf("failed to listen: %v", err)
+		return fmt.Errorf("failed to listen: %w", err)
 	}
 	s := grpc.NewServer()
 
 	nginxPb.RegisterNginxHandlerServer(s, handler)
 	if servErr := s.Serve(lis); servErr != nil {
-		fmt.Errorf("failed to server: %v", err)
+		return fmt.Errorf("failed to server: %w", err)
 	}
+	return nil
 }

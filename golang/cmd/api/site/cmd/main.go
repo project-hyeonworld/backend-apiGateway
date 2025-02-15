@@ -12,9 +12,11 @@ func main() {
 	router := gin.Default()
 	if err := siteLib.StartApiServer(nil, router); err != nil {
 		fmt.Errorf("Failed to start site api: %v", err)
+		return
 	}
 
 	if err := router.Run(":5000"); err != nil {
 		fmt.Errorf("Failed to run server: %v", err)
+		return
 	}
 }
