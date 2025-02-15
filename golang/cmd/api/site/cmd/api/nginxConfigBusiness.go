@@ -20,6 +20,7 @@ type NginxConfigBusiness struct {
 
 func NewNginxConfigBusiness(secretValue *secret.Value) NginxConfigBusiness {
 	return NginxConfigBusiness{
+		project:      secretValue.Projects,
 		application:  secretValue.Applications,
 		availableDir: secretValue.SiteValue.AvailableDir,
 		enabledDir:   secretValue.SiteValue.EnabledDir,
