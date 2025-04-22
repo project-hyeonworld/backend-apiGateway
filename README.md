@@ -1,6 +1,8 @@
-# API-Gateway-golang
+# Gongate
 
 ## 🧑‍💻: Intro
+> 실시간 프록시 관리 및 서비스 통합을 위한 Golang과 Nginx 기반 동적 API-Gateway
+
 ❓ Problem : 실시간 프록시 추가 / 제거 기능 부재 😮
 
 ❗ Idea : HTTP 엔드포인트로 Nginx 제어 🤔
