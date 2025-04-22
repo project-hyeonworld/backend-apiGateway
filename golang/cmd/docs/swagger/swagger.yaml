@@ -1,0 +1,99 @@
+info:
+  contact: {}
+paths:
+  /api/nginx/restart:
+    post:
+      description: Attempts to restart the Nginx service by calling the Restart method
+        on the Nginx handler with a context timeout of 3 minutes.
+      responses:
+        "200":
+          description: Nginx service restarted successfully
+          schema:
+            type: string
+        "500":
+          description: Failed to restart Nginx"}
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Restart Nginx system.
+      tags:
+      - site
+  /api/restart:
+    patch:
+      consumes:
+      - application/json
+      deprecated: true
+      description: Restarts the API by calling the Restart method in the controller.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Added proxy server
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Restart the Nginx using gRPC.
+      tags:
+      - Nginx
+  /nginx/restart:
+    patch:
+      consumes:
+      - application/json
+      description: Restarts the Nginx by calling the Restart method in the controller.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Added proxy server
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Restart the Nginx using plain API.
+      tags:
+      - Nginx
+  /site:
+    post:
+      consumes:
+      - application/json
+      description: Adds a new proxy server by accepting parameters via query and restarting
+        nginx and restarting nginx by calling restartNginx().
+      parameters:
+      - in: query
+        name: applicationName
+        type: string
+      - in: query
+        name: ip
+        type: string
+      - in: query
+        name: port
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully Added proxy server
+          schema:
+            type: string
+        "400":
+          description: Invalid request parameters"}
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error"}
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add a new proxy server.
+      tags:
+      - site
+swagger: "2.0"
