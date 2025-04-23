@@ -1,0 +1,16 @@
+upstream hyeonworld_session-service {
+    ip_hash;
+    server 13.125.176.66:17000;
+    server 13.125.176.66:17000;
+}
+
+server {
+    listen 17000;
+    location /api/v2/auth/session/ {
+        proxy_pass http://hyeonworld_session-service;
+    }
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $host;
+}
