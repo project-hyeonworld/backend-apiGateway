@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = ".;nginx";
+
+service NginxHandler {
+    rpc Restart (RestartRequest) returns (RestartResponse){}
+}
+
+message RestartRequest {
+
+}
+
+message RestartResponse {
+    bool success = 1;
+}

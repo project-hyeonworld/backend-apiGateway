@@ -1,1 +1,0 @@
-swag init --dir cmd/api/nginx/cmd/,cmd/api/site/cmd,cmd/api/shared --output docs/swagger
