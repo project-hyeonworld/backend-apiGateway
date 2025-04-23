@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/nginx/restart": {
+            "post": {
+                "description": "Attempts to restart the Nginx service by calling the Restart method on the Nginx handler with a context timeout of 3 minutes.",
+                "tags": [
+                    "site"
+                ],
+                "summary": "Restart Nginx system.",
+                "responses": {
+                    "200": {
+                        "description": "Nginx service restarted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to restart Nginx\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/restart": {
+            "patch": {
+                "description": "Restarts the API by calling the Restart method in the controller.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nginx"
+                ],
+                "summary": "Restart the Nginx using gRPC.",
+                "deprecated": true,
+                "responses": {
+                    "200": {
+                        "description": "Successfully Added proxy server",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/nginx/restart": {
+            "patch": {
+                "description": "Restarts the Nginx by calling the Restart method in the controller.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nginx"
+                ],
+                "summary": "Restart the Nginx using plain API.",
+                "responses": {
+                    "200": {
+                        "description": "Successfully Added proxy server",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/site": {
+            "post": {
+                "description": "Adds a new proxy server by accepting parameters via query and restarting nginx and restarting nginx by calling restartNginx().",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "site"
+                ],
+                "summary": "Add a new proxy server.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "applicationName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "ip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "port",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Added proxy server",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request parameters\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error\"}",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
