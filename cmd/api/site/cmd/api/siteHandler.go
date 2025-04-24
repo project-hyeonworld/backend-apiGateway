@@ -22,7 +22,7 @@ func NewHandler(nginxHdlr pb.NginxHandlerClient, ctrl IController) *Handler {
 // Add
 // @Summary Add a new proxy server.
 // @Description Adds a new proxy server by accepting parameters via query and restarting nginx and restarting nginx by calling restartNginx().
-// @Tags site
+// @Tags Site
 // @Accept  json
 // @Produce  json
 // @Param proxyServer query model.ProxyServer true "Proxy server details"
@@ -52,7 +52,7 @@ func (h *Handler) Add(c *gin.Context) {
 // restartNginx
 // @Summary Restart Nginx system.
 // @Description Attempts to restart the Nginx service by calling the Restart method on the Nginx handler with a context timeout of 3 minutes.
-// @Tags site
+// @Tags Site
 // @Success 200 {string} string "Nginx service restarted successfully"
 // @Failure 500 {object} map[string]string "Failed to restart Nginx"}
 // @Router /api/nginx/restart [post]

@@ -19,7 +19,7 @@ const docTemplate = `{
             "post": {
                 "description": "Attempts to restart the Nginx service by calling the Restart method on the Nginx handler with a context timeout of 3 minutes.",
                 "tags": [
-                    "site"
+                    "Site"
                 ],
                 "summary": "Restart Nginx system.",
                 "responses": {
@@ -110,7 +110,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "site"
+                    "Site"
                 ],
                 "summary": "Add a new proxy server.",
                 "parameters": [

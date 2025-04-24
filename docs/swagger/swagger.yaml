@@ -18,7 +18,7 @@ paths:
             type: object
       summary: Restart Nginx system.
       tags:
-      - site
+      - Site
   /api/restart:
     patch:
       consumes:
@@ -95,5 +95,5 @@ paths:
             type: object
       summary: Add a new proxy server.
       tags:
-      - site
+      - Site
 swagger: "2.0"
