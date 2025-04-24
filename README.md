@@ -12,7 +12,7 @@
 </br>
 
 ## 🖥️: API Documentation
-https://hyeonwoody.com/swagger/?name=gongate
+https://hyeonwoody.com/swagger/?urls.primaryName=gongate
 
 </br>
 
